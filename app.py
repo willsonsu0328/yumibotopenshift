@@ -39,7 +39,7 @@ def handle_text_message(event):
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=text+"test")) #reply the same message from user
+        TextSendMessage(text=text+" 香香好美～")) #reply the same message from user
     
 
 import os
