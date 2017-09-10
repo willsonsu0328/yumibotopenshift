@@ -39,8 +39,9 @@ def handle_text_message(event):
 
     if text in 'pm2.5':
         allTexts = text.split(' ',1)
-        
+
         areaName = allTexts[1]
+
         url = 'http://opendata2.epa.gov.tw/AQX.json'
         response = requests.get(url)
         response.raise_for_status()
@@ -66,11 +67,15 @@ def handle_text_message(event):
             replyText = 'I dont understand ~'
 
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=replyText)) #reply the same message from user
-    
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=replyText)) #reply the same message from user
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='I dont understand what you mean'))
 
 import os
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
+    # app.run()
