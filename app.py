@@ -37,9 +37,38 @@ def callback():
 def handle_text_message(event):
     text = event.message.text #message from user
 
+    if text in 'pm2.5':
+        allTexts = text.split(' ',1)
+        
+        areaName = allTexts[1]
+        url = 'http://opendata2.epa.gov.tw/AQX.json'
+        response = requests.get(url)
+        response.raise_for_status()
+        airDataList = json.loads(response.text)
+        # logging.debug(airData)
+        status =''
+        pmData =''
+        
+        dicAreaStr = ''
+        isfound = False
+        for airDataIndex in range(len(airDataList)):
+            dicAreaStr = airDataList[airDataIndex]['SiteName']
+            if areaName in dicAreaStr:
+                status = airDataList[airDataIndex]['Status'] 
+                pmData = airDataList[airDataIndex]['PM2.5']
+                isfound = True
+                break
+
+        replyText = ''
+        if isfound == True:
+            replyText = areaName + '的 pm2.5 為 '+ pmData +'，' + '狀態 : ' + status
+        else:
+            replyText = 'I dont understand ~'
+
+
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=text+" Yifaung is beautiful~!")) #reply the same message from user
+        TextSendMessage(text=replyText)) #reply the same message from user
     
 
 import os
