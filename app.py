@@ -16,6 +16,30 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('HdDEyTifuEOVJFujW93ez1J6NR5pIeyM9QM/hIfGyM0NJTDh+tfq0JvhtL8ISRk0mFpgrkzqFHwe4rFJv1R6RK58FqUg7jSEXUIv+Q1R0ubjc9MZRGmrIM0D4q64RlzgR6o/hQpTNvSdzOfmRbitwAdB04t89/1O/w1cDnyilFU=') #Your Channel Access Token
 handler = WebhookHandler('bc7b5e36b8caf97d10ec72b98eabc0a7') #Your Channel Secret
 
+def airQuality(areaName):
+
+    url = 'http://opendata2.epa.gov.tw/AQX.json'
+    response = requests.get(url)
+    response.raise_for_status()
+
+    airDataList = json.loads(response.text)
+
+    # logging.debug(airData)
+    status =''
+    pmData =''
+    dicAreaStr = ''
+    isfound = False
+    for airDataIndex in range(len(airDataList)):
+        dicAreaStr = airDataList[airDataIndex]['SiteName']
+        if areaName in dicAreaStr:
+            status = airDataList[airDataIndex]['Status'] 
+            pmData = airDataList[airDataIndex]['PM2.5']
+            # areaName = airData['SiteName']
+            isfound = True
+            break
+
+    return pmData, status
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -42,37 +66,22 @@ def handle_text_message(event):
 
         areaName = allTexts[1]
 
-        url = 'http://opendata2.epa.gov.tw/AQX.json'
-        response = requests.get(url)
-        response.raise_for_status()
-        airDataList = json.loads(response.text)
-        # logging.debug(airData)
-        status =''
-        pmData =''
-        
-        dicAreaStr = ''
-        isfound = False
-        for airDataIndex in range(len(airDataList)):
-            dicAreaStr = airDataList[airDataIndex]['SiteName']
-            if areaName in dicAreaStr:
-                status = airDataList[airDataIndex]['Status'] 
-                pmData = airDataList[airDataIndex]['PM2.5']
-                isfound = True
-                break
+        pmData, status = airQuality(areaName)
 
         replyText = ''
-        if isfound == True:
-            replyText = areaName + '的 pm2.5 為 '+ pmData +'，' + '狀態 : ' + status
+        if len(pmData) > 0:
             line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=replyText))
+            TextSendMessage(text=areaName + '的 pm2.5 為 '+ pmData +'，' + '狀態 : ' + status))
         else:
-            replyText = 'I dont understand ~'
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='沒有找到你要的唷～'))
 
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=text)) #reply the same message from user
+            TextSendMessage(text=text)) 
     else:
         line_bot_api.reply_message(
             event.reply_token,
