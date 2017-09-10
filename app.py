@@ -73,7 +73,7 @@ def handle_text_message(event):
     else:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='I dont understand what you mean'))
+            TextSendMessage(text='我不知道什麼意思～'))
 
 import os
 if __name__ == "__main__":
