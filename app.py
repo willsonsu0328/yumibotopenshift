@@ -69,7 +69,7 @@ def handle_text_message(event):
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=replyText)) #reply the same message from user
+            TextSendMessage(text=text)) #reply the same message from user
     else:
         line_bot_api.reply_message(
             event.reply_token,
