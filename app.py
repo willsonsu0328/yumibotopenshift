@@ -37,7 +37,7 @@ def callback():
 def handle_text_message(event):
     text = event.message.text #message from user
 
-    if text in 'pm2.5':
+    if 'pm2.5' in text:
         allTexts = text.split(' ',1)
 
         areaName = allTexts[1]
