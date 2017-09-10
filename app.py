@@ -42,10 +42,6 @@ def handle_text_message(event):
 
         areaName = allTexts[1]
 
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=areaName))
-        
         url = 'http://opendata2.epa.gov.tw/AQX.json'
         response = requests.get(url)
         response.raise_for_status()
@@ -67,6 +63,9 @@ def handle_text_message(event):
         replyText = ''
         if isfound == True:
             replyText = areaName + '的 pm2.5 為 '+ pmData +'，' + '狀態 : ' + status
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=replyText))
         else:
             replyText = 'I dont understand ~'
 
