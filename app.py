@@ -82,7 +82,7 @@ def handle_text_message(event):
         if len(pmData) > 0:
 
             p("text:"+areaName + '的 pm2.5 為 '+ pmData +'，' + '狀態 : ' + status);
-            
+
             line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=areaName + '的 pm2.5 為 '+ pmData +'，' + '狀態 : ' + status))
@@ -96,7 +96,7 @@ def handle_text_message(event):
             TextSendMessage(text='我不知道什麼意思～'))
 
 def p(log):
-  print log.encode('utf-8') 
+  print(log) 
   sys.stdout.flush()  
 
 
