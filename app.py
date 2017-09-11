@@ -90,10 +90,6 @@ def handle_text_message(event):
             line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='沒有找到你要的唷～'))
-    else:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='我不知道什麼意思～'))
 
 def p(log):
   print(log) 
