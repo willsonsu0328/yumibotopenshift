@@ -1,4 +1,6 @@
 # encoding: utf-8
+import sys
+
 from flask import Flask, request, abort
 
 from linebot import (
@@ -28,14 +30,12 @@ def airQuality(areaName):
     status =''
     pmData =''
     dicAreaStr = ''
-    isfound = False
     for airDataIndex in range(len(airDataList)):
         dicAreaStr = airDataList[airDataIndex]['SiteName']
         if areaName in dicAreaStr:
             status = airDataList[airDataIndex]['Status'] 
             pmData = airDataList[airDataIndex]['PM2.5']
             # areaName = airData['SiteName']
-            isfound = True
             break
 
     return pmData, status
@@ -49,6 +49,8 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
+    p("Request body: " + body);
+
     # handle webhook body
     try:
         handler.handle(body, signature)
@@ -61,15 +63,26 @@ def callback():
 def handle_text_message(event):
     text = event.message.text #message from user
 
+    p("event.reply_token:"+event.reply_token);
+
+    #Line 系統token 不回應
+    if event.reply_token == '00000000000000000000000000000000':
+       return 'Line reply_token 檢核,不作回應';
+
     if 'pm2.5' in text:
         allTexts = text.split(' ',1)
 
         areaName = allTexts[1]
 
+        p("text:"+areaName);
+
         pmData, status = airQuality(areaName)
 
         replyText = ''
         if len(pmData) > 0:
+
+            p("text:"+areaName + '的 pm2.5 為 '+ pmData +'，' + '狀態 : ' + status);
+            
             line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=areaName + '的 pm2.5 為 '+ pmData +'，' + '狀態 : ' + status))
@@ -77,15 +90,15 @@ def handle_text_message(event):
             line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='沒有找到你要的唷～'))
-
-
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=text)) 
     else:
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='我不知道什麼意思～'))
+
+def p(log):
+  print log.encode('utf-8') 
+  sys.stdout.flush()  
+
 
 import os
 if __name__ == "__main__":
