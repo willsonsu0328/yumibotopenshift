@@ -63,7 +63,7 @@ def handle_text_message(event):
 
     p("event.reply_token:"+event.reply_token)
     p("event.source.type:"+event.source.type)
-    p("event.source.userId:"+event.source.userId)
+    p("event.source.userId:"+event.source.user_id)
 
     #Line 系統token 不回應
     if event.reply_token == '00000000000000000000000000000000':
