@@ -71,7 +71,6 @@ def handle_text_message(event):
         p("profile.display_name"+profile.display_name)
         p("profile.user_id"+profile.user_id)
         p("profile.picture_url"+profile.picture_url)
-        p("profile.status_message"+profile.status_message)
     except LineBotApiError as e:
         abort(400)
 
