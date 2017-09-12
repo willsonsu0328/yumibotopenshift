@@ -96,12 +96,7 @@ def handle_text_message(event):
 
             line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='哈囉 '+profile.display_name+' 以下是你要的資料～'))
-
-            line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=areaName + '的 pm2.5 為 '+ pmData +'，' + '狀態 : ' + status))
-            
+            TextSendMessage(text='哈囉 '+profile.display_name+' 以下是你要的資料～'+'\n\n'+areaName + '的 pm2.5 為 '+ pmData +'，' + '狀態 : ' + status))
         else:
             line_bot_api.reply_message(
             event.reply_token,
