@@ -26,16 +26,14 @@ def airQuality(areaName):
 
     airDataList = json.loads(response.text)
 
-    # logging.debug(airData)
+    p(airDataList)
     status =''
     pmData =''
-    dicAreaStr = ''
-    for airDataIndex in range(len(airDataList)):
-        dicAreaStr = airDataList[airDataIndex]['SiteName']
+    for airDict in airDataList:
+        dicAreaStr = airDict['SiteName']
         if areaName in dicAreaStr:
-            status = airDataList[airDataIndex]['Status'] 
-            pmData = airDataList[airDataIndex]['PM2.5']
-            # areaName = airData['SiteName']
+            status = airDict['Status'] 
+            pmData = airDict['PM2.5']
             break
 
     return pmData, status
