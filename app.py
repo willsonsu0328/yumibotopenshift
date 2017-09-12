@@ -12,7 +12,6 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-from linebot import LineBotApi
 from linebot.exceptions import LineBotApiError
 
 app = Flask(__name__)
@@ -68,7 +67,7 @@ def handle_text_message(event):
     p("event.source.userId:"+event.source.user_id)
 
     try:
-        profile = line_bot_api.get_profile('event.source.user_id')
+        profile = line_bot_api.get_profile(event.source.user_id)
         p("profile.display_name"+profile.display_name)
         p("profile.user_id"+profile.user_id)
         p("profile.picture_url"+profile.picture_url)
