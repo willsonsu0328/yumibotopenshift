@@ -77,8 +77,8 @@ def handle_text_message(event):
     # error handle
 
     #Line 系統token 不回應
-    if event.reply_token == '00000000000000000000000000000000':
-       return 'Line reply_token 檢核,不作回應';
+    # if event.reply_token == '00000000000000000000000000000000':
+    #    return 'Line reply_token 檢核,不作回應';
 
     if 'pm2.5' in text:
         allTexts = text.split(' ',1)
