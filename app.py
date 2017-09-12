@@ -68,7 +68,6 @@ def handle_text_message(event):
 
     try:
         profile = line_bot_api.get_profile(event.source.user_id)
-        p("profile: "+profile)
         p("profile.display_name: "+profile.display_name)
         p("profile.user_id: "+profile.user_id)
         p("profile.picture_url: "+profile.picture_url)
