@@ -65,14 +65,13 @@ def handle_text_message(event):
     p("event.type:"+event.type)
     p("event.source.userId:"+event.source.user_id)
 
-    try:
-        profile = line_bot_api.get_profile('event.source.user_id')
-        p("profile.display_name"+profile.display_name)
-        p("profile.user_id"+profile.user_id)
-        p("profile.picture_url"+profile.picture_url)
-        p("profile.status_message"+profile.status_message)
-    except LineBotApiError as e:
-    # error handle
+    
+    profile = line_bot_api.get_profile('event.source.user_id')
+    p("profile.display_name"+profile.display_name)
+    p("profile.user_id"+profile.user_id)
+    p("profile.picture_url"+profile.picture_url)
+    p("profile.status_message"+profile.status_message)
+    
 
     #Line 系統token 不回應
     if event.reply_token == '00000000000000000000000000000000':
