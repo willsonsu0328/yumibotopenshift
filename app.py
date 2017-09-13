@@ -59,8 +59,8 @@ def callback():
     return 'OK'
 
 @handler.add(FollowEvent)
-    def follow(event):
-        p("follow event.type: "+event.type)
+def follow(event):
+    p("follow event.type: "+event.type)
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
