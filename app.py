@@ -65,7 +65,6 @@ def handle_text_message(event):
     p("event.reply_token: "+event.reply_token)
     p("event.type: "+event.type)
     p("event.source.userId: "+event.source.user_id)
-    p('event.follow.type:'+event.follow.type)
 
     try:
         profile = line_bot_api.get_profile(event.source.user_id)
